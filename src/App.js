@@ -1,24 +1,66 @@
-import logo from './logo.svg';
-import './App.css';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+// import Home from "./pages/Home";
+
+import Sidebar from "./component/Sidebar";
+import Profile from "./pages/Profile";
+import Dashboard from "./pages/Dashboard";
+import Nopage from "./pages/Nopage";
+import NotAuth from "./pages/NotAuth";
+import { useSelector } from "react-redux";
+import Form from "./pages/Form";
+import LogIn from "./component/LogIn";
+import VerifyEmail from "./pages/VerifyEmail";
+import LogInTwo from "./component/LogInTwo";
+import CreateAttendance from "./component/CreateAttendance";
+import OfficialDoc from "./pages/OfficialDoc";
+import KasMember from "./pages/KasMember";
 
 function App() {
+  const isAuthenticated = useSelector((state) => state.user.auth);
+  console.log(isAuthenticated);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      {isAuthenticated ? (
+        <AuthenticatedLayout isAuthenticated />
+      ) : (
+        <Routes>
+          <Route path="/" element={<Form />} />
+          <Route path="/:id" element={<LogIn />} />
+          <Route path="/verifyemail/:id" element={<VerifyEmail />} />
+          <Route path="/login" element={<LogInTwo />} />
+          <Route path="*" element={<NotAuth />} />
+        </Routes>
+      )}
+    </Router>
+  );
+}
+
+function AuthenticatedLayout({ isAuthenticated }) {
+  if (!isAuthenticated) {
+    return <Navigate to={"/"} />;
+  }
+  return (
+    <>
+      <Sidebar>
+        <Routes>
+          <Route path="/">
+            {/* <Route index element={<Home />} /> */}
+            <Route index element={<CreateAttendance />} />
+            <Route path="officialdoc" element={<OfficialDoc />} />
+            <Route path="profile" element={<Profile />} />
+
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="kasmember/:id" element={<KasMember />} />
+            <Route path="*" element={<Nopage />} />
+          </Route>
+        </Routes>
+      </Sidebar>
+    </>
   );
 }
 
