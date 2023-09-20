@@ -7,7 +7,6 @@ import { setAuth } from "../redux/Reducers";
 import { useTypewriter, Cursor } from "react-simple-typewriter";
 import { Link } from "react-router-dom";
 import { FaBookOpen } from "react-icons/fa";
-// import { Oval } from "react-loader-spinner";
 import GoogleLogIn from "../component/GoogleLogIn";
 
 const LogInTwo = () => {

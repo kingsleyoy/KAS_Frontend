@@ -6,18 +6,16 @@ import { useDispatch } from "react-redux";
 import { setAuth } from "../redux/Reducers";
 
 import { useTypewriter, Cursor } from "react-simple-typewriter";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FaBookOpen } from "react-icons/fa";
-// import { Oval } from "react-loader-spinner";
+
 import GoogleLogIn from "../component/GoogleLogIn";
 
 const LogIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
-  const navigate = useNavigate();
+  const [fail, setFail] = useState(null);
 
   const [text] = useTypewriter({
     words: [
@@ -62,14 +60,15 @@ const LogIn = () => {
       const apiUrl = `${process.env.REACT_APP_SERVER}/login`;
       const response = await axios.post(apiUrl, body);
 
-      //   console.log(response.data);
-      dispatch(setAuth(true));
+      if (response.status) {
+        dispatch(setAuth(true));
+      }
     } catch (error) {
       const err = error.request.response;
       console.error("error:", err);
       const jsonString = `${err}`;
       const jsonObject = JSON.parse(jsonString);
-      setError(jsonObject);
+      setFail(jsonObject);
     }
   };
 
@@ -133,7 +132,7 @@ const LogIn = () => {
             <div className=" flex justify-between">
               <span className="  w-1/3 flex items-center justify-center">
                 <button className=" text-[15px] md:text-base w-full hover:bg-projBlue rounded-md bg-green-500 px-2 py-3 md:px-3 md:py-3 text-[#222] font-bold tracking-wide bg-projOrange">
-                  Login
+                  {loading ? "Loading..." : "Login"}
                 </button>
               </span>
               <span className=" font-medium tracking-wide w-full text-[15px] md:text-base text-textOrange text-end">
@@ -142,6 +141,7 @@ const LogIn = () => {
                 <Link className=" hover:text-textWhite">Sign up</Link>
               </span>
             </div>
+            <div>{fail}</div>
           </form>
         </div>
       </div>
