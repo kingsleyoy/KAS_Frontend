@@ -34,7 +34,7 @@ const LogInTwo = () => {
     const body = { email, password };
     setLoading(true);
     try {
-      const apiUrl = `${process.env.REACT_APP_SERVER}/login`;
+      const apiUrl = "https://kas-server.onrender.com/login";
       const response = await axios.post(apiUrl, body);
       console.log(response.status);
       dispatch(setAuth(true));

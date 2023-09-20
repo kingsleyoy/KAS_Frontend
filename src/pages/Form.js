@@ -12,7 +12,7 @@ const Form = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [fail, setFail] = useState("");
+  // const [fail, setFail] = useState("");
 
   const navigate = useNavigate();
 
@@ -21,15 +21,14 @@ const Form = () => {
     const body = { firstName, lastName, email, password };
     setLoading(true);
     try {
-      // const apiUrl = "http://localhost:5000/signup";
-      const apiUrl = `${process.env.REACT_APP_SERVER}/signup`;
+      const apiUrl = "https://kas-server.onrender.com/signup";
       const response = await axios.post(apiUrl, body);
 
-      console.log(response.status);
+      console.log(response);
       navigate(`/verifyemail/${email}`);
     } catch (error) {
       console.error("error:", error);
-      setFail(error);
+      // setFail(error);
     }
     setLoading(false);
   };
@@ -135,7 +134,7 @@ const Form = () => {
                 </Link>
               </span>
             </div>
-            <div> {fail}</div>
+            {/* <div> {fail}</div> */}
           </form>
         </div>
       </div>

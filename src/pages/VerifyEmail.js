@@ -8,7 +8,7 @@ const VerifyEmail = () => {
   const resendEmail = async () => {
     try {
       // const apiUrl = `http://localhost:5000/resendemail/${email}`;
-      const apiUrl = `${process.env.REACT_APP_SERVER}/resendemail/${email}`;
+      const apiUrl = `https://kas-server.onrender.com/resendemail/${email}`;
       const response = await axios.get(apiUrl);
 
       console.log("response data:", response.data);

@@ -37,7 +37,7 @@ const LogIn = () => {
       setLoading(true);
       try {
         // const apiUrl = `http://localhost:5000/verifyemail/${data}`;
-        const apiUrl = `${process.env.REACT_APP_SERVER}/verifyemail/${data}`;
+        const apiUrl = `https://kas-server.onrender.com/verifyemail/${data}`;
         const response = await axios.get(apiUrl);
         console.log("response data:", response.msg);
       } catch (error) {
@@ -56,8 +56,7 @@ const LogIn = () => {
     ev.preventDefault();
     const body = { email, password };
     try {
-      // const apiUrl = "http://localhost:5000/login";
-      const apiUrl = `${process.env.REACT_APP_SERVER}/login`;
+      const apiUrl = "https://kas-server.onrender.com/login";
       const response = await axios.post(apiUrl, body);
 
       if (response.status) {
