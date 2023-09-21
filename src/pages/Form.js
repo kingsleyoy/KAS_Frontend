@@ -21,7 +21,7 @@ const Form = () => {
     const body = { firstName, lastName, email, password };
     setLoading(true);
     try {
-      const apiUrl = "http://localhost:5000/signup";
+      const apiUrl = `${process.env.REACT_APP_SERVER}/signup`;
       const response = await axios.post(apiUrl, body);
 
       console.log(response);

@@ -34,7 +34,7 @@ const LogInTwo = () => {
     const body = { email, password };
     setLoading(true);
     try {
-      const apiUrl = "http://localhost:5000/login";
+      const apiUrl = `${process.env.REACT_APP_SERVER}/login`;
       const response = await axios.post(apiUrl, body);
       console.log(response.status);
       dispatch(setAuth(true));
