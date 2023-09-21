@@ -4,7 +4,7 @@ const DownloadAttendance = ({ id }) => {
   const downloadCSV = async (ev) => {
     ev.preventDefault();
     try {
-      const apiUrl = `https://kas-servers.onrender.com/downloadattendance/${id}`;
+      const apiUrl = `http://localhost:5000/downloadattendance/${id}`;
       const response = await fetch(apiUrl);
       // "http://localhost:5000/downloadattendance/6501e295d656656f1035599a"
       const blob = await response.blob();

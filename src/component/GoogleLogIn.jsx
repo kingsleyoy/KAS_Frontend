@@ -18,7 +18,7 @@ const GoogleLogIn = ({ title }) => {
           eVerify: result.user.emailVerified,
         };
         // const apiUrl = "http://localhost:5000/google/signin";
-        const apiUrl = "https://kas-servers.onrender.com/google/signin";
+        const apiUrl = "http://localhost:5000/google/signin";
 
         try {
           const response = await axios.post(apiUrl, body);

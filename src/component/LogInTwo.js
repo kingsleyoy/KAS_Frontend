@@ -34,7 +34,7 @@ const LogInTwo = () => {
     const body = { email, password };
     setLoading(true);
     try {
-      const apiUrl = "https://kas-servers.onrender.com/login";
+      const apiUrl = "http://localhost:5000/login";
       const response = await axios.post(apiUrl, body);
       console.log(response.status);
       dispatch(setAuth(true));
