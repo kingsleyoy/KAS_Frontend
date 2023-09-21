@@ -21,7 +21,7 @@ const Form = () => {
     const body = { firstName, lastName, email, password };
     setLoading(true);
     try {
-      const apiUrl = "https://kas-server.onrender.com/signup";
+      const apiUrl = "https://kas-servers.onrender.com/signup";
       const response = await axios.post(apiUrl, body);
 
       console.log(response);
