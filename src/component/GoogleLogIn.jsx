@@ -3,7 +3,7 @@ import { signInWithPopup } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import React from "react";
 import axios from "axios";
-import { setAuth } from "../redux/Reducers";
+import { setAuth, setUserId } from "../redux/Reducers";
 import { FcGoogle } from "react-icons/fc";
 
 const GoogleLogIn = ({ title }) => {
@@ -21,10 +21,21 @@ const GoogleLogIn = ({ title }) => {
         const apiUrl = `${process.env.REACT_APP_SERVER}/google/signin`;
 
         try {
-          const response = await axios.post(apiUrl, body);
-          if (response.status) {
-            dispatch(setAuth(true));
-          }
+          axios
+            .post(apiUrl, body)
+            .then((response) => {
+              const responseData = response.data;
+              dispatch(setUserId(responseData.id));
+              dispatch(setAuth(true));
+              console.log(responseData);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+
+          // if (response.status) {
+          //
+          // }
 
           // console.log(response.data);
         } catch (error) {

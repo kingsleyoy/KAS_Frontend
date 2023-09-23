@@ -19,6 +19,8 @@ import LogInTwo from "./component/LogInTwo";
 import CreateAttendance from "./component/CreateAttendance";
 import OfficialDoc from "./pages/OfficialDoc";
 import KasMember from "./pages/KasMember";
+import OpenToAll from "./pages/OpenToAll";
+import OpenToAllForm from "./pages/OpenToAllForm";
 
 function App() {
   const isAuthenticated = useSelector((state) => state.user.auth);
@@ -56,6 +58,8 @@ function AuthenticatedLayout({ isAuthenticated }) {
 
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="kasmember/:id" element={<KasMember />} />
+            <Route path="opentoall/:id" element={<OpenToAll />} />
+            <Route path="opentoallform/:id" element={<OpenToAllForm />} />
             <Route path="*" element={<Nopage />} />
           </Route>
         </Routes>

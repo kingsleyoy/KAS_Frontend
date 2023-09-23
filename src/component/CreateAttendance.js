@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -11,33 +12,74 @@ import { FaPenAlt } from "react-icons/fa";
 import Absent from "../images/thunder-bolt.png";
 import { FaArrowDown } from "react-icons/fa";
 import AttendanceExist from "./AttendanceExist";
+import { useSelector } from "react-redux";
+import MarkAttendance from "./MarkAttendance";
+import FreeToAll from "./FreeToAll";
 
 const CreateAttendance = () => {
-  // const [attendData, setAttendData] = useState(null);
-  const [startDate, setStartDate] = useState(new Date());
+  const [attendData, setAttendData] = useState(null);
+  const [title, setTitle] = useState("title");
+  const [startDate, setStartDate] = useState(null);
   const [startTimer, setStartTimer] = useState("10:00");
   const [endTimer, setEndTimer] = useState("10:00");
 
-  const attendData = [
-    {
-      key: "001",
-      title: "Human resources",
-      id: "12344567777777777777777777776545",
-      date: "1/12/12",
-    },
-    {
-      key: "002",
-      title: "Pte 505 ",
-      id: "1234456777777878898090767675454545576",
-      date: "1/12/12",
-    },
-  ];
-  const handleSubmit = (ev) => {
+  const user = useSelector((state) => state.user.userId);
+  console.log(user);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const apiUrl = `${process.env.REACT_APP_SERVER}/availableattendance/${user}`;
+        await axios.get(apiUrl).then((response) => {
+          const responseData = response.data;
+          setAttendData(responseData);
+        });
+      } catch (error) {
+        console.error("error:", error);
+      }
+    };
+    fetchData();
+  }, [user]);
+
+  // const refresh = () => {
+  //   window.location.reload(false);
+  // };
+
+  const submitKasmember = async (ev) => {
     ev.preventDefault();
-    const startTime = `${startDate.getFullYear()}-${startDate.getMonth()}-${startDate.getDate()} ${startTimer}:00`;
-    const endTime = `${startDate.getFullYear()}-${startDate.getMonth()}-${startDate.getDate()} ${endTimer}:00`;
-    console.log(startTime);
-    console.log(endTime);
+    const kasMembers = true;
+    console.log(startDate.getDate());
+
+    // START TIME
+    const startTime = `${startDate.getFullYear()}-${
+      startDate.getMonth() + 1
+    }-${startDate.getDate()} ${startTimer}:00`;
+
+    // ENDTIME
+    const endTime = `${startDate.getFullYear()}-${
+      startDate.getMonth() + 1
+    }-${startDate.getDate()} ${endTimer}:00`;
+
+    const body = { user, title, startTime, endTime, kasMembers };
+    try {
+      const apiUrl = `${process.env.REACT_APP_SERVER}/createattendance`;
+      await axios
+        .post(apiUrl, body)
+        .then((response) => {
+          const responseData = response.data;
+          console.log(responseData);
+          // refresh();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (error) {
+      const err = error.request.response;
+      console.error("error:", err);
+      const jsonString = `${err}`;
+      const jsonObject = JSON.parse(jsonString);
+      // setFail(jsonObject);
+    }
   };
 
   return (
@@ -81,10 +123,16 @@ const CreateAttendance = () => {
             <h3 className=" mb-2 md:text-lg font-semibold md:mb-3">
               Create Attendance
             </h3>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={submitKasmember}>
               <p className="  mb-2">Title</p>
               <span className=" border-[2px] border-textBlack rounded-md p-1 w-[150px] ">
-                <input type="text" name="title" className=" outline-none" />
+                <input
+                  type="text"
+                  name="title"
+                  className=" outline-none"
+                  onChange={(ev) => setTitle(ev.target.value)}
+                  required
+                />
               </span>
 
               <p className=" mb-2 mt-3">Activation Date</p>
@@ -155,74 +203,7 @@ const CreateAttendance = () => {
             (Open to all)
           </p>
         </div>
-
-        <div className="flex flex-col md:flex-row gap-4">
-          <div className=" mb-4 md:mb-0 w-full text-center md:text-start md:w-1/2 md:border-r-2 md:border-r-textBlack">
-            <h3 className=" mb-2 md:text-lg font-semibold md:mb-3">
-              Create Attendance
-            </h3>
-            <form onSubmit={handleSubmit}>
-              <p className="  mb-2">Title</p>
-              <span className=" border-[2px] border-textBlack rounded-md p-1 w-[150px] ">
-                <input type="text" name="title" className=" outline-none" />
-              </span>
-
-              <p className=" mb-2">Activation Date</p>
-              <span className=" border-[2px] border-textBlack rounded-md p-1 w-[150px] ">
-                <DatePicker
-                  selected={startDate}
-                  onChange={(date) => setStartDate(date)}
-                />
-              </span>
-
-              <p className=" mt-3">Start Time</p>
-
-              <TimePicker
-                onChange={setStartTimer}
-                value={startTimer}
-                className={
-                  " border-green-300  outline-none border-[0] shadow-md"
-                }
-                required
-              />
-              <p className=" mt-3">End Time</p>
-              <TimePicker
-                onChange={setEndTimer}
-                value={endTimer}
-                className={
-                  " border-green-300  outline-none border-[0] shadow-md"
-                }
-                required
-              />
-              <br />
-              <button className=" group  mx-auto md:mx-0 flex items-center gap-2 mt-4 hover:bg-projOrange bg-projBlue py-2 px-1 rounded-md">
-                <span className=" text-textWhite ">Generate Attendance</span>
-                <span className=" text-textOrange group-hover:text-textBlack">
-                  <FaPenAlt />
-                </span>
-              </button>
-            </form>
-          </div>
-          <div className="w-full md:w-1/2">
-            <h3 className=" text-center mb-3 md:text-lg font-semibold">
-              Latest Attendance
-            </h3>
-
-            <div>
-              {attendData ? (
-                <p>attendanceExist</p>
-              ) : (
-                <div className=" h-[150px] w-[150px] mx-auto">
-                  <figure>
-                    <img src={Absent} alt="unavailable" />
-                  </figure>
-                  <p className=" text-[12px]">No available attendance</p>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
+        <FreeToAll />
         {/* MARK ATTENDANCE */}
         <div className=" mt-14 mb-6 md:text-center md:mb-8 md:mt-14 border-t-[1px] border-[#CCC] pt-4 ">
           <h3 className=" text-center text-lg font-bold text-textGrad text-textBlack">
@@ -232,45 +213,7 @@ const CreateAttendance = () => {
             (Key needed)
           </p>
         </div>
-        <div className="flex flex-col md:flex-row gap-4  mb-6 md:text-center md:mb-8 mt-3">
-          <div className=" mb-4 md:mb-0 w-full text-center md:text-start md:w-1/2 md:border-r-2 md:border-r-textBlack">
-            <form onSubmit={handleSubmit}>
-              <div className=" border-[1px] rounded-md w-full md:w-[80%] mx-auto md:mx-0">
-                <input
-                  type="text"
-                  className=" w-full transition-all duration-200 p-1"
-                  placeholder="Enter key"
-                />
-              </div>
-
-              <button className=" group bg-projGrad hover:bg-bm mx-auto md:mx-0 flex items-center gap-2 mt-4  py-2 px-1 rounded-md">
-                <span className=" text-textWhite ">Mark Attendance</span>
-                <span className=" text-textBlack group-hover:text-textBlack">
-                  <FaPenAlt />
-                </span>
-              </button>
-            </form>
-          </div>
-          <div className="w-full md:w-1/2">
-            <h3 className=" text-center mb-3 md:text-lg font-semibold">
-              Events attended
-            </h3>
-
-            <div>
-              {attendData ? (
-                <div>data exists</div>
-              ) : (
-                <div className=" h-[150px] w-[150px] mx-auto">
-                  <figure>
-                    <img src={Absent} alt="unavailable" />
-                  </figure>
-                  <p className=" text-[12px]">No available attendance</p>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
+        <MarkAttendance />
         <div className=" h-[100px]"></div>
       </div>
     </div>

@@ -1,7 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Heading from "../component/Heading";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 const Dashboard = () => {
+  const [attendData, setAttendData] = useState(null);
+  const user = useSelector((state) => state.user.userId);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const apiUrl = `${process.env.REACT_APP_SERVER}/dashboard/${user}`;
+        await axios.get(apiUrl).then((response) => {
+          const responseData = response.data;
+          setAttendData(responseData);
+        });
+      } catch (error) {
+        console.error("error:", error);
+      }
+    };
+    fetchData();
+  }, [user]);
   return (
     <div className=" w-full h-screen overflow-y-scroll">
       <Heading title="DASHBOARD" />
@@ -16,7 +34,9 @@ const Dashboard = () => {
                 <p className=" font-semibold text-[13px] md:text-[14px] text-textGrey">
                   KAS members
                 </p>
-                <p className=" text-[green] font-medium">50</p>
+                <p className=" text-[green] font-medium">
+                  {attendData?.kasCount}
+                </p>
               </div>
               <div>
                 <p className=" text-textGrey font-semibold  text-[13px] md:text-[14px]">
@@ -33,9 +53,11 @@ const Dashboard = () => {
               </h5>
               <div>
                 <p className=" text-textMilk font-semibold  text-[13px] md:text-[14px] ">
-                  Total Event{" "}
+                  Total Event
                 </p>
-                <p className=" text-[#FFFF00] font-medium">50</p>
+                <p className=" text-[#FFFF00] font-medium">
+                  {attendData?.eventCount}
+                </p>
               </div>
             </div>
           </div>

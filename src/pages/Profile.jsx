@@ -1,8 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Heading from "../component/Heading";
 import { BsPersonCircle } from "react-icons/bs";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
+  const [attendData, setAttendData] = useState(null);
+  const user = useSelector((state) => state.user.userId);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const apiUrl = `${process.env.REACT_APP_SERVER}/profiledetail/${user}`;
+        await axios.get(apiUrl).then((response) => {
+          const responseData = response.data;
+          setAttendData(responseData);
+        });
+      } catch (error) {
+        console.error("error:", error);
+      }
+    };
+    fetchData();
+  }, [user]);
+
   return (
     <div className="w-full">
       <Heading title="PROFILE" />
@@ -11,9 +31,15 @@ const Profile = () => {
           <BsPersonCircle />
         </div>
         <div className=" text-[14px] md:text-base font-semibold text-center">
-          <p>Kingsley</p>
-          <p>Oyeoka</p>
-          <p>kingsleyoyeokz@gmail.com</p>
+          {attendData ? (
+            <div>
+              <p>{attendData?.firstName}</p>
+              <p>{attendData?.lastName}</p>
+              <p>{attendData?.email}</p>
+            </div>
+          ) : (
+            <p>Not connected to internet</p>
+          )}
         </div>
       </div>
     </div>

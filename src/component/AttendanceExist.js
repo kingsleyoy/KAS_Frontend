@@ -18,15 +18,15 @@ const AttendanceExist = ({ data }) => {
       </thead>
 
       <tbody>
-        {data.map((item) => (
+        {data.map((item, index) => (
           <tr
-            key={item.key}
-            onClick={() => handleClick(item.id)}
+            key={index}
+            onClick={() => handleClick(item._id)}
             className=" cursor-pointer"
           >
             <td className=" overflow-hidden">{item.title}</td>
-            <td className=" overflow-hidden">{item.id}</td>
-            <td className="hidden md:block">{item.date}</td>
+            <td className=" overflow-hidden">{item._id}</td>
+            <td className="hidden md:block">{item.createdAt}</td>
           </tr>
         ))}
       </tbody>

@@ -27,7 +27,7 @@ const LogInTwo = () => {
     delaySpeed: 2000,
   });
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const handleLogIn = async (ev) => {
     ev.preventDefault();
@@ -37,7 +37,6 @@ const LogInTwo = () => {
       const apiUrl = `${process.env.REACT_APP_SERVER}/login`;
       const response = await axios.post(apiUrl, body);
       console.log(response.status);
-      dispatch(setAuth(true));
     } catch (error) {
       const err = error.request.response;
       console.error("error:", err);
