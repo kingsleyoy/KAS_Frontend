@@ -17,7 +17,7 @@ const CopyLink = ({ link }) => {
   return (
     <div className=" flex gap-4 items-center">
       <input type="text" ref={linkRef} value={link} readOnly />
-      <span onClick={copyToClipboard} className=" w-4">
+      <span onClick={copyToClipboard} className=" w-4 text-xl md:text-2xl">
         <FaRegCopy />
       </span>
     </div>

@@ -6,15 +6,15 @@ import "react-datepicker/dist/react-datepicker.css";
 import TimePicker from "react-time-picker";
 import "react-time-picker/dist/TimePicker.css";
 import "react-clock/dist/Clock.css";
-import Heading from "./Heading";
+import Heading from "../component/Heading";
 import { Link } from "react-router-dom";
 import { FaPenAlt } from "react-icons/fa";
 import Absent from "../images/thunder-bolt.png";
 import { FaArrowDown } from "react-icons/fa";
-import AttendanceExist from "./AttendanceExist";
+import AttendanceExist from "../component/AttendanceExist";
 import { useSelector } from "react-redux";
-import MarkAttendance from "./MarkAttendance";
-import FreeToAll from "./FreeToAll";
+import MarkAttendance from "../component/MarkAttendance";
+import FreeToAll from "../component/FreeToAll";
 
 const CreateAttendance = () => {
   const [attendData, setAttendData] = useState(null);
@@ -40,10 +40,6 @@ const CreateAttendance = () => {
     };
     fetchData();
   }, [user]);
-
-  // const refresh = () => {
-  //   window.location.reload(false);
-  // };
 
   const submitKasmember = async (ev) => {
     ev.preventDefault();
@@ -76,17 +72,23 @@ const CreateAttendance = () => {
     } catch (error) {
       const err = error.request.response;
       console.error("error:", err);
-      const jsonString = `${err}`;
-      const jsonObject = JSON.parse(jsonString);
+
       // setFail(jsonObject);
     }
+  };
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    element.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
     <div className=" w-full h-screen overflow-y-scroll overflow-x-hidden  ">
       <Heading title="HOME" />
       <div className=" px-2 md:px-8 relative">
-        <span className=" z-[999] fixed bottom-5 right-7 text-textBlack bg-projGrad rounded-full p-2 md:p-3 animate-bounce">
+        <span
+          className=" z-[999] fixed bottom-5 right-7 text-textBlack bg-projGrad rounded-full p-2 md:p-3 animate-bounce"
+          onClick={() => scrollToSection("markid")}
+        >
           <FaArrowDown />
         </span>
         <div className=" mt-5  mb-10 md:mt-8 md:mb-7">
@@ -205,7 +207,10 @@ const CreateAttendance = () => {
         </div>
         <FreeToAll />
         {/* MARK ATTENDANCE */}
-        <div className=" mt-14 mb-6 md:text-center md:mb-8 md:mt-14 border-t-[1px] border-[#CCC] pt-4 ">
+        <div
+          id="markid"
+          className=" mt-14 mb-6 md:text-center md:mb-8 md:mt-14 border-t-[1px] border-[#CCC] pt-4 "
+        >
           <h3 className=" text-center text-lg font-bold text-textGrad text-textBlack">
             Mark Attendance
           </h3>

@@ -14,6 +14,7 @@ const LogInTwo = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [fail, setFail] = useState(null);
+  const dispatch = useDispatch();
 
   const [text] = useTypewriter({
     words: [
@@ -35,8 +36,14 @@ const LogInTwo = () => {
     setLoading(true);
     try {
       const apiUrl = `${process.env.REACT_APP_SERVER}/login`;
-      const response = await axios.post(apiUrl, body);
-      console.log(response.status);
+      axios
+        .post(apiUrl, body)
+        .then((response) => {
+          dispatch(setAuth(true));
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     } catch (error) {
       const err = error.request.response;
       console.error("error:", err);
@@ -113,7 +120,9 @@ const LogInTwo = () => {
               <span className=" font-medium tracking-wide w-full text-[15px] md:text-base text-textOrange text-end">
                 <Link className=" hover:text-textWhite">Forgot password</Link>
                 <br />
-                <Link className=" hover:text-textWhite">Sign up</Link>
+                <Link className=" hover:text-textWhite" to={"/"}>
+                  Sign up
+                </Link>
               </span>
             </div>
             <div>{fail}</div>

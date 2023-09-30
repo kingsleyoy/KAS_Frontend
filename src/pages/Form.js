@@ -22,10 +22,16 @@ const Form = () => {
     setLoading(true);
     try {
       const apiUrl = `${process.env.REACT_APP_SERVER}/signup`;
-      const response = await axios.post(apiUrl, body);
+      axios
+        .post(apiUrl, body)
+        .then((response) => {
+          navigate(`/verifyemail/${email}`);
+        })
+        .catch((err) => {
+          console.error("error:", err);
+        });
 
-      console.log(response);
-      navigate(`/verifyemail/${email}`);
+      // navigate(`/verifyemail/${email}`);
     } catch (error) {
       console.error("error:", error);
       // setFail(error);

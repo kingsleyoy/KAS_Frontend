@@ -57,14 +57,21 @@ const LogIn = () => {
     const body = { email, password };
     try {
       const apiUrl = `${process.env.REACT_APP_SERVER}/login`;
-      const response = await axios.post(apiUrl, body);
+      axios
+        .post(apiUrl, body)
+        .then((response) => {
+          dispatch(setAuth(true));
+        })
+        .catch((err) => {
+          console.error(err);
+        });
 
-      if (response.status) {
-        dispatch(setAuth(true));
-      }
+      // if (response.status) {
+      //   dispatch(setAuth(true));
+      // }
     } catch (error) {
       const err = error.request.response;
-      console.error("error:", err);
+
       const jsonString = `${err}`;
       const jsonObject = JSON.parse(jsonString);
       setFail(jsonObject);
@@ -137,7 +144,9 @@ const LogIn = () => {
               <span className=" font-medium tracking-wide w-full text-[15px] md:text-base text-textOrange text-end">
                 <Link className=" hover:text-textWhite">Forgot password</Link>
                 <br />
-                <Link className=" hover:text-textWhite">Sign up</Link>
+                <Link className=" hover:text-textWhite" to={"/"}>
+                  Sign up
+                </Link>
               </span>
             </div>
             <div>{fail}</div>

@@ -5,10 +5,25 @@ import { FaPenAlt } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
 const MarkAttendance = () => {
-  const [attendData, setAttendData] = useState(null);
+  // const [attendData, setAttendData] = useState(null);
   const [mark, setMark] = useState(null);
 
   const user = useSelector((state) => state.user.userId);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const apiUrl = `${process.env.REACT_APP_SERVER}/availableattendance/${user}`;
+  //       await axios.get(apiUrl).then((response) => {
+  //         const responseData = response.data;
+  //         setAttendData(responseData);
+  //       });
+  //     } catch (error) {
+  //       console.error("error:", error);
+  //     }
+  //   };
+  //   fetchData();
+  // }, [user]);
 
   const handleMark = async (ev) => {
     ev.preventDefault();
@@ -24,7 +39,6 @@ const MarkAttendance = () => {
         .then((response) => {
           const responseData = response.data;
           console.log(responseData);
-          // refresh();
         })
         .catch((err) => {
           console.log(err);
@@ -32,9 +46,6 @@ const MarkAttendance = () => {
     } catch (error) {
       const err = error.request.response;
       console.error("error:", err);
-      const jsonString = `${err}`;
-      // const jsonObject = JSON.parse(jsonString);
-      // setFail(jsonObject);
     }
   };
 
@@ -66,7 +77,7 @@ const MarkAttendance = () => {
         </h3>
 
         <div>
-          {attendData ? (
+          {false ? (
             <div>data exists</div>
           ) : (
             <div className=" h-[150px] w-[150px] mx-auto">

@@ -5,6 +5,7 @@ import axios from "axios";
 
 const Dashboard = () => {
   const [attendData, setAttendData] = useState(null);
+  const [openCounter, setOpenCounter] = useState(null);
   const user = useSelector((state) => state.user.userId);
   useEffect(() => {
     const fetchData = async () => {
@@ -13,6 +14,23 @@ const Dashboard = () => {
         await axios.get(apiUrl).then((response) => {
           const responseData = response.data;
           setAttendData(responseData);
+        });
+      } catch (error) {
+        console.error("error:", error);
+      }
+    };
+    fetchData();
+  }, [user]);
+
+  // Open to all count
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const apiUrl = `${process.env.REACT_APP_SERVER}/dashboardopentoall/${user}`;
+        await axios.get(apiUrl).then((response) => {
+          const responseData = response.data;
+          setOpenCounter(responseData);
         });
       } catch (error) {
         console.error("error:", error);
@@ -42,7 +60,9 @@ const Dashboard = () => {
                 <p className=" text-textGrey font-semibold  text-[13px] md:text-[14px]">
                   Open to all
                 </p>
-                <p className=" text-[green] font-medium">60</p>
+                <p className=" text-[green] font-medium">
+                  {openCounter?.openCount}
+                </p>
               </div>
             </div>
           </div>

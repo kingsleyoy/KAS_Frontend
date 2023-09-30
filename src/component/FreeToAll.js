@@ -7,7 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import TimePicker from "react-time-picker";
 import "react-time-picker/dist/TimePicker.css";
 import "react-clock/dist/Clock.css";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { FaPenAlt } from "react-icons/fa";
 import Absent from "../images/thunder-bolt.png";
 import AttendanceExist from "./AttendanceExist";
@@ -52,7 +52,7 @@ const FreeToAll = () => {
 
     const body = { user, title, startTime, endTime, openToAll };
     try {
-      const apiUrl = `${process.env.REACT_APP_SERVER}/createattendance`;
+      const apiUrl = `${process.env.REACT_APP_SERVER}/createopentoall`;
       await axios
         .post(apiUrl, body)
         .then((response) => {
@@ -66,8 +66,7 @@ const FreeToAll = () => {
     } catch (error) {
       const err = error.request.response;
       console.error("error:", err);
-      const jsonString = `${err}`;
-      const jsonObject = JSON.parse(jsonString);
+
       // setFail(jsonObject);
     }
   };

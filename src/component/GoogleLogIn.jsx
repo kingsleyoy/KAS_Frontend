@@ -8,7 +8,7 @@ import { FcGoogle } from "react-icons/fc";
 
 const GoogleLogIn = ({ title }) => {
   const dispatch = useDispatch();
-  // console.log(username);
+
   const signInWithGoogle = async () => {
     try {
       await signInWithPopup(auth, googleProvider).then(async (result) => {
@@ -17,7 +17,7 @@ const GoogleLogIn = ({ title }) => {
           email: result.user.email,
           eVerify: result.user.emailVerified,
         };
-        // const apiUrl = "http://localhost:5000/google/signin";
+
         const apiUrl = `${process.env.REACT_APP_SERVER}/google/signin`;
 
         try {
@@ -32,21 +32,13 @@ const GoogleLogIn = ({ title }) => {
             .catch((err) => {
               console.log(err);
             });
-
-          // if (response.status) {
-          //
-          // }
-
-          // console.log(response.data);
         } catch (error) {
           console.log(error);
         }
 
         console.log(result);
       });
-    } catch (err) {
-      // console.log(err);
-    }
+    } catch (err) {}
   };
   return (
     <div className="  flex justify-center bg-projWhite w-full rounded-lg mb-2 shadow-lg">

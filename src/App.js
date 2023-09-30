@@ -16,11 +16,14 @@ import Form from "./pages/Form";
 import LogIn from "./component/LogIn";
 import VerifyEmail from "./pages/VerifyEmail";
 import LogInTwo from "./component/LogInTwo";
-import CreateAttendance from "./component/CreateAttendance";
+
 import OfficialDoc from "./pages/OfficialDoc";
 import KasMember from "./pages/KasMember";
 import OpenToAll from "./pages/OpenToAll";
 import OpenToAllForm from "./pages/OpenToAllForm";
+import CreateAttendance from "./pages/CreateAttendance";
+
+import RedirectOpenToAll from "./component/RedirectOpenToAll";
 
 function App() {
   const isAuthenticated = useSelector((state) => state.user.auth);
@@ -35,6 +38,7 @@ function App() {
           <Route path="/:id" element={<LogIn />} />
           <Route path="/verifyemail/:id" element={<VerifyEmail />} />
           <Route path="/login" element={<LogInTwo />} />
+          <Route path="/opentoallform/:id" element={<OpenToAllForm />} />
           <Route path="*" element={<NotAuth />} />
         </Routes>
       )}
@@ -59,7 +63,7 @@ function AuthenticatedLayout({ isAuthenticated }) {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="kasmember/:id" element={<KasMember />} />
             <Route path="opentoall/:id" element={<OpenToAll />} />
-            <Route path="opentoallform/:id" element={<OpenToAllForm />} />
+            <Route path="/opentoallform/:id" element={<RedirectOpenToAll />} />
             <Route path="*" element={<Nopage />} />
           </Route>
         </Routes>
