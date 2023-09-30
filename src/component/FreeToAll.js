@@ -23,7 +23,7 @@ const FreeToAll = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const apiUrl = `${process.env.REACT_APP_SERVER}/availableattendance/${user}`;
+        const apiUrl = `${process.env.REACT_APP_SERVER}/opentoall/${user}`;
         await axios.get(apiUrl).then((response) => {
           const responseData = response.data;
           setAttendData(responseData);
